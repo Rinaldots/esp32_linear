@@ -198,9 +198,9 @@ void BluetoothCommunication::updateTelemetryCache()
     telemetry_data.right_gain = 0;
 
     // 5. Odometry Position
-    telemetry_data.odom_x = linearCar.getRelativePosition();
+    telemetry_data.odom_x = linearCar.getRelativeSteps();
     telemetry_data.odom_y = linearCar.getAbsolutePosition();
-    telemetry_data.odom_theta = linearCar.getRelativeSteps(); // Exemplo: cada passo = 0.01 rad, ajuste conforme necessário
+    telemetry_data.odom_theta = linearCar.getRelativePosition(); // Exemplo: cada passo = 0.01 rad, ajuste conforme necessário
 
     // 6. Odometry Velocity
     telemetry_data.odom_vx = 0;
@@ -322,8 +322,8 @@ void BluetoothCommunication::processCommand(String command)
         if (splitPos >= 0) {
             valueStr = valueStr.substring(0, splitPos);
         }
-        float velocity = abs(valueStr.toFloat());
-        linearCar.setSpeed(velocity*30); // TODO: ajustar o fator de conversão para RPM conforme necessário
+        float velocity = valueStr.toFloat();
+        linearCar.setSpeed(fabsf(velocity) * 30.0f); // TODO: ajustar o fator de conversão para RPM conforme necessário
         //Serial.println("Comando de velocidade: " + String(velocity));
         if (velocity > 0){
             linearCar.setBypassControl(INDO);
