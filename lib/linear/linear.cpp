@@ -79,7 +79,7 @@ void LinearCar::updateStateFromCommand()
             estado = VOLTANDO;
         }
         taskEXIT_CRITICAL(&stateMux);
-        retur n;
+        return;
     }
 
     if (comando == BYPASS) {
